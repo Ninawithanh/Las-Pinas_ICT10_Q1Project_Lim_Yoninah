@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Receipt Generator</title>
+    <title>SKU Generator</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -69,15 +69,13 @@
 
         .option {
             width: 100%;
+            align-items: center;
             background-color: rgb(209, 226, 209);
             border: 1px solid white;
             border-radius: 5px;
             padding: 15px 18px;
             margin: 10px 0;
             box-sizing: border-box;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .option input {
@@ -166,6 +164,7 @@
 </head>
 
 <body>
+
     <nav>
         <a href="index.html">Receipt Generator</a>
         <a href="sku.html">SKU Generator</a>
@@ -174,122 +173,98 @@
     <div class="container">
 
         <div class="header">
-            <h1>Entrep Fair</h1>
+            <h1>SKU Generator</h1>
         </div>
 
         <div class="content">
+    
+            <div class="field">
 
-            <h2>Menu</h2>
+                <label for="category">
+                    Category
+                </label>
 
-            <label class="option">
-                <span class="option-left">
-                    <input type="checkbox" id="item1" value="25">
-                    <span> Water </span>
-                </span>
+                <select id="category">
+                    <option value="Drinks">
+                        Drinks
+                    </option>
 
-                <span> ₱25 </span>
-            </label>
+                    <option value="Snacks">
+                        Snacks
+                    </option>
 
+                    <option value="Clothes">
+                        Clothes
+                    </option>
 
-            <label class="option">
-                <span class="option-left">
-                    <input type="checkbox" id="item2" value="100">
-                    <span> Chocolate Chip Cookie </span>
-                </span>
+                    <option value="Others">
+                        Others
+                    </option>
+                </select>
 
-                <span>₱100</span>
-            </label>
-
-            <label class="option">
-                <span class="option-left">
-                    <input type="checkbox" id="item3" value="750">
-                    <span> Matcha Cookie </span>
-                </span>
-
-                <span>₱750</span>
-            </label>
-
-            <label class="option">
-                <span class="option-left">
-                    <input type="checkbox" id="item4" value="115">
-                    <span> Vanilla Cookie </span>
-                </span>
-
-                <span>₱115</span>
-            </label>
-
-            <label class="option">
-                <span class="option-left">
-                    <input type="checkbox" id="item5" value="115">
-                    <span> Chocolate Cookie </span>
-                </span>
-
-                <span>₱115</span>
-            </label>
-
-            <label class="option">
-                <span class="option-left">
-                    <input type="checkbox" id="item6" value="200">
-                    <span> Tiramisu Cookie </span>
-                </span>
-
-                <span>₱200</span>
-            </label>
-
-            <label class="option">
-                <span class="option-left">
-                    <input type="checkbox" id="item7" value="175">
-                    <span> Smores Cookie </span>
-                </span>
-
-                <span>₱175</span>
-            </label>
-
-            <button onclick="create_order()">Create order</button>
-
-            <div class="summary" id="show">
-                Order Summary
             </div>
+
+            <div class="field">
+                <label for="product_name">Product Name</label>
+                <input type="text" id="product_name" placeholder="Example: Matcha Cookie">
+            </div>
+    
+            <div class="field">
+
+                <label for="quantity">
+                    Stock quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="quantity"
+                    placeholder="Example: 1000000000"
+                >
+
+            </div>
+
+
+  
+            <button onclick="SKU_generator()">
+                Generate SKU
+            </button>
+
+
+
+            <div class="sku-output" id="sku_output"> </div>
 
         </div>
     </div>
-<script>
-
-        function create_order() {
-
-            let prod1 = document.getElementById("item1");
-            let prod2 = document.getElementById("item2");
-            let prod3 = document.getElementById("item3");
-            let prod4 = document.getElementById("item4");
-            let prod5 = document.getElementById("item5");
-            let prod6 = document.getElementById("item6");
-            let prod7 = document.getElementById("item7");
-
-            let subtotal =
-                (parseFloat(prod1.value) * prod1.checked) +
-                (parseFloat(prod2.value) * prod2.checked) +
-                (parseFloat(prod3.value) * prod3.checked) +
-                (parseFloat(prod4.value) * prod4.checked) +
-                (parseFloat(prod5.value) * prod5.checked) +
-                (parseFloat(prod6.value) * prod6.checked) +
-                (parseFloat(prod7.value) * prod7.checked);
 
 
-            let tax_rate = 0.12;
+    <script>
 
-            let tax = subtotal * tax_rate;
+        function SKU_generator() {
 
-            let total = subtotal + tax;
+          
+            document.getElementById("sku_output").innerHTML = "";
 
-            let receipt = "==== Receipt ====\n\n";
 
-            receipt += "Subtotal: ₱" + subtotal.toFixed(2) + "\n";
+            let category =
+                document.getElementById("category").value;
 
-            receipt += "VAT: ₱" + tax.toFixed(2) + "\n";
+            let product_name =
+                document.getElementById("product_name").value;
 
-            receipt += "Total Amount: ₱" + total.toFixed(2);
+            let stock_qty =
+                document.getElementById("quantity").value;
 
-            document.getElementById("show").innerText = receipt;
+            let sku =
+                category.slice(0, 3).toUpperCase()
+                + "-"
+                + product_name.slice(0, 4).toUpperCase()
+                + "-"
+                + String(stock_qty);
+
+
+            document.getElementById("sku_output").innerText =
+                "SKU: " + sku;
+
         }
 
     </script>
